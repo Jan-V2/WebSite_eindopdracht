@@ -1,5 +1,10 @@
-﻿@helper user_top_html()
+﻿@helper user_top_html(string unique_url)
     {
+        <link href="~/Content/wl_logged_in_top.css" rel="stylesheet" type="text/css" />
+        <h1>You are logged in</h1>
+        <span>Your unique link is:</span>
+        <span id="u_link">@unique_url</span>
+        <button id="copy_link" class="copy_btn">Click to copy.</button>
         <div style="margin-top:8px">
             <b>Item name</b>
             <div>
@@ -22,9 +27,7 @@
 
 @helper load_wishlist(string button_txt, string wl_id, Database db, Boolean show_pledged)
     {
-
-
-var items = db.Query("SELECT item, giver_name FROM wishlist_items WHERE user_string = @0", wl_id).ToArray();
+        var items = db.Query("SELECT item, giver_name FROM wishlist_items WHERE user_string = @0", wl_id).ToArray();
 
         <link href="~/Content/wl.css" rel="stylesheet" type="text/css" />
         <table id="wishlist" class="wl_cont">
@@ -72,5 +75,5 @@ var items = db.Query("SELECT item, giver_name FROM wishlist_items WHERE user_str
             <th class="last_collum">
                 <span>@giver_name</span>
             </th>
-        </tr> 
+        </tr>
 }

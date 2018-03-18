@@ -48,7 +48,7 @@ public static class Utils
 
     public static string get_unique_link(string wl_id)
     {
-        return add_query_str_to_url(Globals.website_root, "wl_id", wl_id);
+        return add_query_str_to_url(Globals.website_root + "User/", "wl_id", wl_id);
     }
 
 }

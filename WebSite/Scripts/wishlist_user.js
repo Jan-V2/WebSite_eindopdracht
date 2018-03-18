@@ -37,13 +37,13 @@ $("document").ready(() => {
         }
     });
 
-/*    copy_btn.click((e) => {
-
-        let copyText = document.getElementById("u_link");
-        copyText.select();
-        document.execCommand("Copy");
-        alert("Copied link.")
-    });*/
+    copy_btn.click((e) => {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($("#u_link").text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    });
 
 
     submit.click(() => {

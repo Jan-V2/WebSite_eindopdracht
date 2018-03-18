@@ -1,5 +1,7 @@
 ﻿
 
+
+
 button.wl_btn {
     cursor: pointer;
     font-size: 1em;
@@ -15,6 +17,8 @@ button.wl_btn {
     display: inline-flex;
     float: left;
 }
+
+
 
 
 .wl_cont {

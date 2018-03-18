@@ -20,14 +20,7 @@
 
     var wl_id = Utils.get_usr_str(db, User.Identity.Name);
 
-    var url = Utils.get_unique_link(wl_id);
-
-    <h1>You are logged in</h1>
-    <span>Your unique link is:</span>
-    <span id="u_link">@url</span>
-    //<button id="copy_link">Click to copy.</button>
-
-    @WishlistHelpers.user_top_html();
+    @WishlistHelpers.user_top_html(Utils.get_unique_link(wl_id));
     @WishlistHelpers.load_wishlist("Delete", wl_id, db, true);
 }
 else
