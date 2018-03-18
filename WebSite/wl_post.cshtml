@@ -1,0 +1,103 @@
+﻿@{
+    //For all wishlist post events
+    if (IsPost)
+    {
+        var act = Request.Form["action"];
+        if (act != null)
+        {
+            var db = Utils.get_db_con();
+
+            if (WebSecurity.IsAuthenticated)
+            {
+                var user_str = Utils.get_usr_str(db, User.Identity.Name);
+
+                if (act == "add_item")
+                {
+
+                    var item = Request.Form["item"];
+                    if (item != "")
+                    {
+                        if (db.QuerySingle("SELECT * FROM wishlist_items WHERE user_string = @0 AND item = @1", user_str, item) == null)
+                        {
+                            db.Execute("INSERT INTO wishlist_items (item, user_string) VALUES (@0, @1)", item, user_str);
+                            Response.Write("ok");
+                        }
+                        else
+                        {
+                            Response.Write("Item already in wishlist.");
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("The textbox is empty");
+                    }
+                }
+                else if (act == "delete_item")
+                {
+                    var item = Request.Form["item"];
+                    if (item != "")
+                    {
+                        var r_affected = db.Execute("DELETE FROM wishlist_items WHERE item = @0 and user_string = @1", item, user_str);
+                        if(r_affected == 1)
+                        {
+                            Response.Write("ok");
+                        }
+                        else if(r_affected == 0)
+                        {
+                            Response.Write("Can't delete item. Item doesn't exist");
+                        }
+                        else
+                        {
+                            Response.Write("error multible items deleted");
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("Can't delete item, item not recieved");
+                    }
+                }
+                else
+                {
+                    Response.Write("unknown action");
+                }
+            }
+            else// If not logged in
+            {
+                if(act == "pledge")
+                {
+                    var item = Request.Form["item"];
+                    var guest_name = Request.Form["name"];
+                    var wl_id = Request.Form["wl_id"];
+
+                    if(item != "" && guest_name != "" && wl_id != "")
+                    {
+                        var r_affected = db.Execute("UPDATE wishlist_items " +
+                            "SET giver_name = @0 WHERE item = @1 AND user_string = @2",
+                            guest_name, item, wl_id);
+                        if (r_affected == 1)
+                        {
+                            Response.Write("ok");
+                        }
+                        else if (r_affected == 0)
+                        {
+                            Response.Write("failed to update database");
+                        }
+                        else
+                        {
+                            Response.Write("database modified incorrectly");
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("malformed pledge request");
+                    }
+
+                }
+                else
+                {
+                    Response.Write("unknown action");
+                }
+            }
+        }
+    }
+}

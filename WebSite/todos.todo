@@ -1,0 +1,13 @@
+
+backend:
+  ☐ Make it so the wishlist ids are linked in the user table and the wishlist items table.
+  ☐ Make new password reqs more complex.
+
+pages:
+  ☐ add the copy link button back in
+  ✔ make it so you get send an email with you unique link when you sign up. @done(2018-03-18 01:24) @project(pages)
+  ✔ Use an html list to list for the wishlist @done(2018-03-17 12:29) @project(pages)
+  ✔ create the page thing for guests where they can say what they want to give. @done(2018-03-18 00:02) @project(pages)
+  ✔ add the guest name @done(2018-03-18 00:02) @project(pages)
+    ✔ maybe put the wishlist in a html table @done(2018-03-18 00:03) @project(pages)
+  ✔ fix the js append item code (or probably just do a refresh).  @done(2018-03-16 21:24) @project(pages)

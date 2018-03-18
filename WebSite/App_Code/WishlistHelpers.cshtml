@@ -1,0 +1,76 @@
+﻿@helper user_top_html()
+    {
+        <div style="margin-top:8px">
+            <b>Item name</b>
+            <div>
+                <input type="text" id="item_name" />
+                <button type="submit" id="submit">Add item </button>
+            </div>
+        </div>
+}
+
+@helper guest_top_html(string usr_email)
+    {
+        <h1>Whislist connected to @usr_email.</h1>
+        <div style="margin-top:8px">
+            <b>Your first and last name</b>
+            <div>
+                <input type="text" id="guest_name" />
+            </div>
+        </div>
+}
+
+@helper load_wishlist(string button_txt, string wl_id, Database db, Boolean show_pledged)
+    {
+
+
+var items = db.Query("SELECT item, giver_name FROM wishlist_items WHERE user_string = @0", wl_id).ToArray();
+
+        <link href="~/Content/wl.css" rel="stylesheet" type="text/css" />
+        <table id="wishlist" class="wl_cont">
+
+            <tr>
+                <th>
+                </th>
+                <th>
+                    <span>Item</span>
+                </th>
+                <th class="last_collum">
+                    <span>Name of Giver</span>
+                </th>
+            </tr>
+
+            @for (int i = 0; i < items.Length; i++)
+            {
+                var item = items[i];
+                var btn_id = "wl_bnt_" + i.ToString();
+                var item_id = "wl_item_" + i.ToString();
+                var giver_name = item[1];
+
+                if (giver_name == null)
+                {
+                    giver_name = "No one yet";
+                    @WishlistHelpers.whislist_row(btn_id, item_id, button_txt, giver_name, item[0]);
+                }
+                else if (show_pledged == true)
+                {
+                    @WishlistHelpers.whislist_row(btn_id, item_id, button_txt, giver_name, item[0]);
+                }
+            }
+        </table>
+}
+
+@helper whislist_row(string btn_id, string item_id, string button_txt, string giver_name, string item_txt)
+    {
+        <tr>
+            <th>
+                <button class="wl_btn" id=@btn_id> <font size="1">@button_txt </font> </button>
+            </th>
+            <th>
+                <li id=@item_id>@item_txt</li>
+            </th>
+            <th class="last_collum">
+                <span>@giver_name</span>
+            </th>
+        </tr> 
+}
